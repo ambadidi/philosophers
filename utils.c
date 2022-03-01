@@ -6,7 +6,7 @@
 /*   By: abadidi <abadidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 21:58:31 by abadidi           #+#    #+#             */
-/*   Updated: 2022/02/28 23:10:52 by abadidi          ###   ########.fr       */
+/*   Updated: 2022/03/01 03:13:04 by abadidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,23 @@ void	monitoring(t_config *config, t_philo **list)
 	i = 0;
 	while (i < config->number)
 	{
+		pthread_mutex_lock(&list[i]->eat_mutex);
 		if (get_time() - list[i]->last_meal > (config->time_to_die * 1000))
 		{
-			printf("DEATH %lld \n", get_time() - list[i]->last_meal);
-			exit(0);
+			pthread_mutex_unlock(&list[i]->eat_mutex);
+			print("DEATH\n", list[i]);
+			pthread_mutex_lock(&config->msg);
+			break ;
 		}
+		pthread_mutex_unlock(&list[i]->eat_mutex);
+		pthread_mutex_lock(&config->finished_mutex);
+		if (config->how_many_eat != 0 && config->finish == config->how_many_eat)
+		{
+			pthread_mutex_lock(&config->msg);
+			printf(" FINSHED %lld \n", get_time() - list[i]->last_meal);
+			break ;
+		}
+		pthread_mutex_unlock(&config->finished_mutex);
 		i = (i +1) % config->number ;
 	}
 }

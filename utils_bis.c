@@ -6,7 +6,7 @@
 /*   By: abadidi <abadidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:02:11 by abadidi           #+#    #+#             */
-/*   Updated: 2022/02/28 22:49:09 by abadidi          ###   ########.fr       */
+/*   Updated: 2022/03/01 00:52:05 by abadidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ void	print(char *str, t_philo *philo)
 	long	time;
 
 	time = (get_time() - philo->config->start) / 1000;
+	pthread_mutex_lock(&philo->config->msg);
 	printf("%ld- philosopher %d is %s\n", time, philo->id, str);
+	pthread_mutex_unlock(&philo->config->msg);
 }
 
 static	void	*ft_memset(void *str, int c, size_t n)
