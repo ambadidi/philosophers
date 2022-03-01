@@ -63,7 +63,7 @@ void	monitoring(t_config *config, t_philo **list)
 		if (get_time() - list[i]->last_meal > (config->time_to_die * 1000))
 		{
 			pthread_mutex_unlock(&list[i]->eat_mutex);
-			print("DEATH\n", list[i]);
+			print("DEATH", list[i]);
 			pthread_mutex_lock(&config->msg);
 			break ;
 		}
@@ -72,10 +72,20 @@ void	monitoring(t_config *config, t_philo **list)
 		if (config->how_many_eat != 0 && config->finish == config->how_many_eat)
 		{
 			pthread_mutex_lock(&config->msg);
-			printf(" FINSHED %lld \n", get_time() - list[i]->last_meal);
+			printf("FINSHED\n");
 			break ;
 		}
 		pthread_mutex_unlock(&config->finished_mutex);
 		i = (i +1) % config->number ;
+	}
+}
+
+void	my_sleep(long long interv)
+{
+	long start = get_time();
+
+	while ( get_time() - start  < interv)
+	{
+		usleep(5);
 	}
 }

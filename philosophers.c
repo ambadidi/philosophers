@@ -12,18 +12,6 @@
 
 #include "philosophers.h"
 
-void	my_sleep(long long inter)
-{
-	long old = get_time();
-
-	while ( get_time() - old  < inter)
-	{
-		usleep(5);
-	}
-	
-}
-
-
 void	*ft_philo(void *data)
 {
 	t_philo		*philo;
@@ -67,28 +55,30 @@ t_config	*parse(int argc, char **argv)
 	if (argc == 5 || argc == 6)
 	{
 		config->number = ft_atoi(argv[1]);
-		printf("%s\n", argv[2]);
 		config->time_to_die = ft_atoi(argv[2]);
 		config->time_to_eat = ft_atoi(argv[3]);
 		config->time_to_sleep = ft_atoi(argv[4]);
 		if (argc == 6)
-		{
-			if (ft_atoi(argv[5]) > 0)
-				config->how_many_eat = ft_atoi(argv[5]);
-			else if (ft_atoi(argv[5]) <= 0)
-			{
-				printf("Wrong optional arg!\n");
-				exit(0);
-			}
-		}
+			config->how_many_eat = ft_atoi(argv[5]);
 	}
 	return (config);
 }
 
 void	check_config(t_config *config)
 {
-	if (config->number >= 1)
+	if (config->number < 1)
 	{
+		free(config);
+		exit(0);
+	}
+	if (config->time_to_die < 0 || config->time_to_eat < 0 || config->time_to_sleep < 0)
+	{
+		free(config);
+		exit(0);
+	}
+	if (config->how_many_eat < 0)
+	{
+		free(config);
 		exit(0);
 	}
 }
@@ -115,15 +105,14 @@ t_philo	**init_philo(t_config *config)
 {
 	int		i;
 	t_philo	**list;
-	int		ret;
 
 	i = -1;
 	list = (t_philo **)malloc(sizeof(t_philo *) * config->number);
 	while (++i < config->number)
 	{
 		list[i] = malloc(sizeof(t_philo));
-		ret = pthread_mutex_init(&list[i]->fork, NULL);
-		ret = pthread_mutex_init(&list[i]->eat_mutex, NULL);
+		pthread_mutex_init(&list[i]->fork, NULL);
+		pthread_mutex_init(&list[i]->eat_mutex, NULL);
 		list[i]->last_meal = get_time();
 		list[i]->id = i + 1;
 		list[i]->config = config;
@@ -132,10 +121,6 @@ t_philo	**init_philo(t_config *config)
 	while (++i < config->number)
 	{
 		list[i]->next = list[(i + 1) % (config->number)];
-		if (i != 0)
-			list[i]->prev = list[i - 1];
-		else
-			list[i]->prev = list[config->number - 1];
 	}
 	return (list);
 }
@@ -157,15 +142,14 @@ int	main(int argc, char **argv)
 {
 	t_config	*config;
 	t_philo		**list;
-	int			i;
 
 	config = parse(argc, argv);
+	check_config(config);
 	list = init_philo(config);
 	config->start = get_time();
-	i = 0;
-	create_threads(config, list[0]);
 	pthread_mutex_init(&config->msg, NULL);
 	pthread_mutex_init(&config->finished_mutex, NULL);
+	create_threads(config, list[0]);
 	monitoring(config, list);
 	free_config_and_philo(list, config);
 }

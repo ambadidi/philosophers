@@ -45,7 +45,6 @@ typedef struct s_philo
 	t_config		*config;
 	pthread_mutex_t	fork;
 	pthread_mutex_t	eat_mutex;
-	struct s_philo	*prev;
 	struct s_philo	*next;
 }				t_philo;
 
@@ -58,5 +57,6 @@ t_config	*parse(int argc, char **argv);
 t_philo		**init_philo(t_config *config);
 void		monitoring(t_config *config, t_philo **list);
 void		create_threads(t_config *config, t_philo *philo);
+void		my_sleep(long long inter);
 
 #endif
