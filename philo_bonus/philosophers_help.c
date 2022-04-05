@@ -33,8 +33,6 @@ void *check_death(void *a)
 
 void	*ft_philo_help(t_philo *philo)
 {
-
-
 	while (1)
 	{
 		print("is thinking", philo);

@@ -42,15 +42,11 @@ void	free_config_and_philo(t_philo **list, t_config *config)
 	i = 0;
 	while (i < config->number)
 	{
-		// pthread_mutex_destroy(&list[i]->fork);
-		// pthread_mutex_destroy(&list[i]->eat_mutex);
 		free(list[i]);
 		i++;
 	}
-	// pthread_mutex_destroy(&config->msg);
-	// pthread_mutex_destroy(&config->finished_mutex);
-	 sem_unlink("message");
-	 sem_unlink("forks");
+	sem_unlink("message");
+	sem_unlink("forks");
 	free(list);
 	free(config);
 }
@@ -87,7 +83,6 @@ void	create_threads(t_config *config, t_philo *philo)
 	i = 0;
 	while (i < config->number)
 	{
-		// pthread_create(&philo->tid, NULL, (void *)ft_philo, philo);
 		philo->pid = fork();
 		if (philo->pid == 0)
 		{
@@ -111,7 +106,6 @@ int	main(int argc, char **argv)
 		return (1);
 	list = init_philo(config);
 	config->start = get_time();
-	// pthread_mutex_init(&config->msg, NULL);
 	config->msg = sem_open("message",  O_CREAT | O_EXCL, 0666,1);
 	config->forks = sem_open("forks",  O_CREAT | O_EXCL, 0666, config->number);
 	if (config->msg  == SEM_FAILED ||  config->forks  == SEM_FAILED)
