@@ -67,6 +67,8 @@ t_philo	**init_philo(t_config *config)
 		list[i]->id = i + 1;
 		list[i]->is_finshed = 0;
 		list[i]->config = config;
+		pthread_mutex_init(&(list[i]->eat_mutex), NULL);
+
 	}
 	i = -1;
 	while (++i < config->number)
@@ -114,7 +116,6 @@ int	main(int argc, char **argv)
 		exit(0);
 	}
 	
-	pthread_mutex_init(&config->finished_mutex, NULL);
 	create_threads(config, list[0]);
 	monitoring(config, list);
 	free_config_and_philo(list, config);

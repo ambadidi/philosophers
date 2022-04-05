@@ -14,25 +14,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-int	get_finshed(t_config *config)
-{
-	int	ret;
 
-	pthread_mutex_lock(&config->finished_mutex);
-	ret = config->finish;
-	pthread_mutex_unlock(&config->finished_mutex);
-	return (ret);
-}
 
-int	get_isfinshed(t_philo *philo)
-{
-	int	ret;
-
-	pthread_mutex_lock(&philo->is_finshed_mutex);
-	ret = philo->is_finshed;
-	pthread_mutex_unlock(&philo->is_finshed_mutex);
-	return (ret);
-}
 
 void	monitoring(t_config *config, t_philo **list)
 {

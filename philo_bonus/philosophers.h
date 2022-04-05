@@ -36,7 +36,7 @@ typedef struct s_config
 	int				finish;
 	sem_t			*msg;
 	sem_t			*forks;
-	pthread_mutex_t	finished_mutex;
+	pthread_mutex_t	chek;
 }				t_config;
 
 typedef struct s_philo
@@ -51,7 +51,6 @@ typedef struct s_philo
 	pthread_mutex_t	eat_mutex;
 	struct s_philo	*next;
 	int				is_finshed;
-	pthread_mutex_t	is_finshed_mutex;
 }				t_philo;
 
 int			ft_isdigit(int c);

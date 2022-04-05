@@ -13,6 +13,10 @@
 #include "philosophers.h"
 
 
+
+
+
+
 void *check_death(void *a)
 {   
 
@@ -20,13 +24,18 @@ void *check_death(void *a)
 
     while  (1)
     {
+			pthread_mutex_lock(&philo->eat_mutex);
 
         if (get_time() - philo->last_meal > (philo->config->time_to_die * 1000))
         {
+			pthread_mutex_unlock(&philo->eat_mutex);
             print("DIE ", philo);
 			sem_wait(philo->config->msg);
             exit(1);
         }
+			pthread_mutex_unlock(&philo->eat_mutex);
+
+		usleep(5);
     }
     return NULL;
 }
