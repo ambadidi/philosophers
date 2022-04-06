@@ -12,7 +12,7 @@
 
 NAME = philosophers
 
-SRCS = philosophers.c philosophers_help.c utils.c utils_bis.c utils_tiers.c check_if_digit.c
+SRCS = philosophers.c philosophers_help.c utils.c utils_bis.c utils_tiers.c check_if_digit.c ft_itoa.c
 
 FLAGS = -Wall -Wextra -Werror -c #   
 

@@ -51,6 +51,12 @@ void	free_config_and_philo(t_philo **list, t_config *config)
 	free(config);
 }
 
+char *my_random()
+{	
+	
+	return  ft_lltoa(get_time()); ;
+}
+
 t_philo	**init_philo(t_config *config)
 {
 	int		i;
@@ -59,7 +65,7 @@ t_philo	**init_philo(t_config *config)
 	i = -1;
 	sem_unlink("eat");
 	sem_unlink("message");
-	sem_unlink("forks");
+	sem_unlink("forks");		
 	list = (t_philo **)malloc(sizeof(t_philo *) * config->number);
 	while (++i < config->number)
 	{
@@ -69,8 +75,8 @@ t_philo	**init_philo(t_config *config)
 		list[i]->is_finshed = 0;
 		list[i]->config = config;
 		//pthread_mutex_init(&(list[i]->eat_mutex), NULL);
-		config->eat_sem = sem_open("eat",  O_CREAT | O_EXCL, 0666,config->number);
-
+		list[i]->eat_sem_name = my_random();
+		list[i]->eat_sem = sem_open(list[i]->eat_sem_name,  O_CREAT | O_EXCL, 0666, 1);
 	}
 	i = -1;
 	while (++i < config->number)

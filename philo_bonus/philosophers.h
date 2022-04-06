@@ -36,8 +36,6 @@ typedef struct s_config
 	int				finish;
 	sem_t			*msg;
 	sem_t			*forks;
-	sem_t			*eat_sem;
-	pthread_mutex_t	chek;
 }				t_config;
 
 typedef struct s_philo
@@ -48,11 +46,13 @@ typedef struct s_philo
 	unsigned int	id;
 	int				eaten;
 	t_config		*config;
-	// pthread_mutex_t	fork;
 	struct s_philo	*next;
+	sem_t			*eat_sem;
 	int				is_finshed;
+	char 			*eat_sem_name; // free
 }				t_philo;
 
+char			*ft_lltoa(long long nbr);
 int			ft_isdigit(int c);
 int			check_if_digit(char *str);
 long long	ft_atoi(char const *s);
