@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abadidi <abadidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abadidi < abadidi@student.1337.ma>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 10:29:12 by abadidi           #+#    #+#             */
-/*   Updated: 2022/03/01 22:49:10 by abadidi          ###   ########.fr       */
+/*   Updated: 2022/04/06 15:51:34 by abadidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_philo	**init_philo(t_config *config)
 	t_philo	**list;
 
 	i = -1;
+	sem_unlink("eat");
 	sem_unlink("message");
 	sem_unlink("forks");
 	list = (t_philo **)malloc(sizeof(t_philo *) * config->number);
@@ -67,7 +68,8 @@ t_philo	**init_philo(t_config *config)
 		list[i]->id = i + 1;
 		list[i]->is_finshed = 0;
 		list[i]->config = config;
-		pthread_mutex_init(&(list[i]->eat_mutex), NULL);
+		//pthread_mutex_init(&(list[i]->eat_mutex), NULL);
+		config->eat_sem = sem_open("eat",  O_CREAT | O_EXCL, 0666,config->number);
 
 	}
 	i = -1;

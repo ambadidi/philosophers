@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abadidi <abadidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abadidi < abadidi@student.1337.ma>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 10:29:43 by abadidi           #+#    #+#             */
-/*   Updated: 2022/03/01 23:07:38 by abadidi          ###   ########.fr       */
+/*   Updated: 2022/04/06 15:40:14 by abadidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_config
 	int				finish;
 	sem_t			*msg;
 	sem_t			*forks;
+	sem_t			*eat_sem;
 	pthread_mutex_t	chek;
 }				t_config;
 
@@ -48,7 +49,6 @@ typedef struct s_philo
 	int				eaten;
 	t_config		*config;
 	// pthread_mutex_t	fork;
-	pthread_mutex_t	eat_mutex;
 	struct s_philo	*next;
 	int				is_finshed;
 }				t_philo;

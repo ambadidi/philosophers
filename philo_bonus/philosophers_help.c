@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers_help.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abadidi <abadidi@student.42.fr>            +#+  +:+       +#+        */
+/*   By: abadidi < abadidi@student.1337.ma>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/01 18:25:50 by abadidi           #+#    #+#             */
-/*   Updated: 2022/03/01 22:12:24 by abadidi          ###   ########.fr       */
+/*   Updated: 2022/04/06 15:53:51 by abadidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-
-
-
-
 
 void *check_death(void *a)
 {   
@@ -24,16 +19,20 @@ void *check_death(void *a)
 
     while  (1)
     {
-			pthread_mutex_lock(&philo->eat_mutex);
+			//pthread_mutex_lock(&philo->eat_mutex);
+			sem_post(philo->config->eat_sem);
 
         if (get_time() - philo->last_meal > (philo->config->time_to_die * 1000))
         {
-			pthread_mutex_unlock(&philo->eat_mutex);
-            print("DIE ", philo);
+			//pthread_mutex_unlock(&philo->eat_mutex);
+            sem_post(philo->config->eat_sem);
+			print("DIE ", philo);
 			sem_wait(philo->config->msg);
             exit(1);
         }
-			pthread_mutex_unlock(&philo->eat_mutex);
+			//pthread_mutex_unlock(&philo->eat_mutex);
+			sem_post(philo->config->eat_sem);
+			sem_unlink("eat");
 
 		usleep(5);
     }
@@ -49,9 +48,11 @@ void	*ft_philo_help(t_philo *philo)
 		sem_wait(philo->config->forks);
 		print("has taken a fork", philo);
 		print("has taken a fork", philo);
-		pthread_mutex_lock(&philo->eat_mutex);
+		//pthread_mutex_lock(&philo->eat_mutex);
+		sem_wait(philo->config->eat_sem);
 		philo->last_meal = get_time();
-		pthread_mutex_unlock(&philo->eat_mutex);
+		//pthread_mutex_unlock(&philo->eat_mutex);
+		sem_post(philo->config->eat_sem);
 		print("is eating", philo);
 		my_sleep(philo->config->time_to_eat * 1000);
 		philo->eaten++;
