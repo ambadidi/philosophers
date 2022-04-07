@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abadidi < abadidi@student.1337.ma>         +#+  +:+       +#+        */
+/*   By: abadidi <abadidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 10:29:12 by abadidi           #+#    #+#             */
-/*   Updated: 2022/04/06 15:51:34 by abadidi          ###   ########.fr       */
+/*   Updated: 2022/04/06 23:54:12 by abadidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@ void	free_config_and_philo(t_philo **list, t_config *config)
 	free(config);
 }
 
-char *my_random()
-{	
-	
-	return  ft_lltoa(get_time()); ;
-}
-
 t_philo	**init_philo(t_config *config)
 {
 	int		i;
@@ -65,7 +59,7 @@ t_philo	**init_philo(t_config *config)
 	i = -1;
 	sem_unlink("eat");
 	sem_unlink("message");
-	sem_unlink("forks");		
+	sem_unlink("forks");
 	list = (t_philo **)malloc(sizeof(t_philo *) * config->number);
 	while (++i < config->number)
 	{
@@ -74,9 +68,9 @@ t_philo	**init_philo(t_config *config)
 		list[i]->id = i + 1;
 		list[i]->is_finshed = 0;
 		list[i]->config = config;
-		//pthread_mutex_init(&(list[i]->eat_mutex), NULL);
 		list[i]->eat_sem_name = my_random();
-		list[i]->eat_sem = sem_open(list[i]->eat_sem_name,  O_CREAT | O_EXCL, 0666, 1);
+		list[i]->eat_sem = sem_open(list[i]->eat_sem_name,
+				O_CREAT | O_EXCL, 0666, 1);
 	}
 	i = -1;
 	while (++i < config->number)
@@ -116,14 +110,13 @@ int	main(int argc, char **argv)
 		return (1);
 	list = init_philo(config);
 	config->start = get_time();
-	config->msg = sem_open("message",  O_CREAT | O_EXCL, 0666,1);
-	config->forks = sem_open("forks",  O_CREAT | O_EXCL, 0666, config->number);
-	if (config->msg  == SEM_FAILED ||  config->forks  == SEM_FAILED)
+	config->msg = sem_open("message", O_CREAT | O_EXCL, 0666, 1);
+	config->forks = sem_open("forks", O_CREAT | O_EXCL, 0666, config->number);
+	if (config->msg == SEM_FAILED || config->forks == SEM_FAILED)
 	{
 		perror("semphore :");
 		exit(0);
 	}
-	
 	create_threads(config, list[0]);
 	monitoring(config, list);
 	free_config_and_philo(list, config);

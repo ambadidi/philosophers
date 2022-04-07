@@ -6,7 +6,7 @@
 /*   By: abadidi <abadidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/28 22:02:11 by abadidi           #+#    #+#             */
-/*   Updated: 2022/03/01 23:13:22 by abadidi          ###   ########.fr       */
+/*   Updated: 2022/04/06 22:00:31 by abadidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@ long	get_time(void)
 	return (1000000 * start.tv_sec + start.tv_usec);
 }
 
-void	print(char *str, t_philo *philo)
+void	print(char *str, t_philo *philo, int die)
 {
 	long	time;
 
 	time = (get_time() - philo->config->start) / 1000;
 	sem_wait(philo->config->msg);
 	printf("%ld  %d %s\n", time, philo->id, str);
-	sem_post(philo->config->msg);
+	if (die == 0)
+		sem_post(philo->config->msg);
 }
 
 void	ft_bzero(void *str, size_t n)

@@ -6,11 +6,11 @@
 #    By: abadidi <abadidi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/02/28 23:17:43 by abadidi           #+#    #+#              #
-#    Updated: 2022/03/01 22:51:22 by abadidi          ###   ########.fr        #
+#    Updated: 2022/04/06 23:20:43 by abadidi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = philosophers
+NAME = philo
 
 SRCS = philosophers.c philosophers_help.c utils.c utils_bis.c utils_tiers.c check_if_digit.c
 

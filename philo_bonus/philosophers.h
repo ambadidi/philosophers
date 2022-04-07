@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abadidi < abadidi@student.1337.ma>         +#+  +:+       +#+        */
+/*   By: abadidi <abadidi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/27 10:29:43 by abadidi           #+#    #+#             */
-/*   Updated: 2022/04/06 15:40:14 by abadidi          ###   ########.fr       */
+/*   Updated: 2022/04/07 00:06:30 by abadidi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 # include <errno.h>
 # include <sys/time.h>
 # include <limits.h>
-#include <semaphore.h>
-#include <fcntl.h>           /* For O_* constants */
-#include <sys/stat.h>        /* For mode constants */
+# include <semaphore.h>
+# include <fcntl.h>
+# include <sys/stat.h>
+# include <signal.h>
 
 typedef struct s_config
 {
@@ -49,15 +50,15 @@ typedef struct s_philo
 	struct s_philo	*next;
 	sem_t			*eat_sem;
 	int				is_finshed;
-	char 			*eat_sem_name; // free
+	char			*eat_sem_name;
 }				t_philo;
 
-char			*ft_lltoa(long long nbr);
+char		*ft_lltoa(long long nbr);
 int			ft_isdigit(int c);
 int			check_if_digit(char *str);
 long long	ft_atoi(char const *s);
 long		get_time(void);
-void		print(char *str, t_philo *philo);
+void		print(char *str, t_philo *philo, int die);
 void		ft_bzero(void *str, size_t n);
 void		*ft_philo_help(t_philo *philo);
 void		*ft_philo(void *data);
@@ -69,4 +70,5 @@ void		create_threads(t_config *config, t_philo *philo);
 void		my_sleep(long long inter);
 int			check_config(t_config *config);
 int			check_args(int argc, char **argv);
+char		*my_random(void);
 #endif

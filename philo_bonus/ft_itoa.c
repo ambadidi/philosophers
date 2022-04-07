@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_itoa.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abadidi <abadidi@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/02/27 10:29:12 by abadidi           #+#    #+#             */
+/*   Updated: 2022/04/06 23:28:39 by abadidi          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 static	void	ft_swap(char *a, char *b)
 {
-	char tmp;
+	char	tmp;
 
 	tmp = *a;
 	*a = *b;
@@ -24,7 +36,7 @@ static	void	ft_reverse(char *str)
 	}
 }
 
-static	int		ft_nbrlen(int nbr)
+static	int	ft_nbrlen(int nbr)
 {
 	long	nnbr;
 	int		len;
@@ -70,7 +82,7 @@ static	void	fill(char *str, long long nnbr)
 	ft_reverse(str + sign);
 }
 
-char			*ft_lltoa(long long nbr)
+char	*ft_lltoa(long long nbr)
 {
 	long long	nnbr;
 	char		*str;
